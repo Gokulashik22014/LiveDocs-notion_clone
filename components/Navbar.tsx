@@ -33,7 +33,7 @@ const Navbar = () => {
       </div>
       {/* Breadcrums like show the path the user exist fancy stuff bro really good */}
 
-      <div className="flex justify-end flex-1">
+      <div className="flex justify-end flex-1 px-3 py-3">
         <SignedOut>
           <SignInButton />
         </SignedOut>
