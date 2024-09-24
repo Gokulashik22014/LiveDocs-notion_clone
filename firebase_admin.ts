@@ -1,13 +1,18 @@
+import { getApps,getApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 
 
-var admin = require("firebase-admin");
+let admin = require("firebase-admin");
 
-var serviceAccount = require("./service_admin.json");
+let serviceAccount = require("./service_admin.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+if(getApps().length===0){
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+}else{
+  admin=getApp()
+}
 
 const adminDB=getFirestore(admin)
 
