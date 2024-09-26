@@ -6,6 +6,7 @@ import {
   UserButton,
   SignInButton,
 } from "@clerk/nextjs";
+import Link from "next/link";
 import React from "react";
 
 const Navbar = () => {
@@ -14,7 +15,7 @@ const Navbar = () => {
   return (
     <div className="flex justify-between px-4 py-2 border border-solid">
       <div className="flex space-x-6 items-center">
-        <div className="flex items-center justify-center space-x-3 rounded-md p-1">
+        <Link href={"/"} className="flex items-center justify-center space-x-3 rounded-md p-1">
           <div>
             <img
               src={"/images/logo.png"}
@@ -23,7 +24,7 @@ const Navbar = () => {
             />
           </div>
           <h1 className="text-purple-500 text-2xl uppercase ">LiveDocs</h1>
-        </div>
+        </Link>
         {user && (
           <h1>
             {user?.firstName}

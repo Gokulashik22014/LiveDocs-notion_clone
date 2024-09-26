@@ -5,12 +5,14 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { useUser } from "@clerk/nextjs";
 import { collection, collectionGroup, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
+import SideBarCard from "./SideBarCard";
 interface RoomDocument {
   userId: string;
   roomId: string;
   role: "owner" | "editor";
   createdAt: string;
 }
+
 const Sidebar = () => {
   const { user } = useUser();
   const [sideBarData, setSideBarData] = useState<{
@@ -22,13 +24,13 @@ const Sidebar = () => {
   });
   const [data, isLoading, error] = useCollection(
     user &&
-    query(
-      collectionGroup(db, "rooms"),
-      where("userId", "==", user.emailAddresses[0].toString())
-    )
+      query(
+        collectionGroup(db, "rooms"),
+        where("userId", "==", user.emailAddresses[0].toString())
+      )
   );
   useEffect(() => {
-    console.log(data)
+    console.log(data);
     if (!data) return;
 
     // so what in the hell is this
@@ -53,8 +55,8 @@ const Sidebar = () => {
         editor: [],
       }
     );
-    setSideBarData(seprated)
-    console.log(sideBarData)
+    setSideBarData(seprated);
+    console.log(sideBarData);
   }, [data]);
   const menuOption = (
     <>
@@ -62,7 +64,37 @@ const Sidebar = () => {
 
       {/* my own documents */}
       <div className="flex flex-col mt-4 space-y-2">
-        {sideBarData.owner.length>0 && sideBarData.owner.map((data)=><p>{data.userId}</p>)}
+        {sideBarData.owner.length === 0 ? (
+          <h1>Try Creating the Document</h1>
+        ) : (
+          <div>
+            <h1>Your Documents</h1>
+            {sideBarData.owner.map((data) => (
+              <SideBarCard
+                key={data.roomId}
+                id={data.roomId}
+                href={`doc/${data.roomId}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+      {/* Shared documents */}
+      <div className="flex flex-col mt-4 space-y-2">
+        <h1>Shared Documents</h1>
+        {sideBarData.editor.length === 0 ? (
+          <h1>No Documents</h1>
+        ) : (
+          <div>
+            {sideBarData.editor.map((data) => (
+              <SideBarCard
+                key={data.roomId}
+                id={data.roomId}
+                href={`doc/${data.roomId}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
