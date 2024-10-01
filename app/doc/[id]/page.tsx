@@ -11,7 +11,7 @@ const DocPage = () => {
   const { id } = useParams();
   const [title, setTitle] = useState<string>("");
   const [data, isLoading, error] = useDocumentData(
-    doc(db, "documents", id as string)
+    doc(db, "documents", id as string)// the hook monitors this docs which means when doc updated the hook re fetches data
   );
   const [isUpdating, startTransition] = useTransition();
   useEffect(() => {
