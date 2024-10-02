@@ -1,6 +1,7 @@
 import React from "react";
 import { RoomProvider, ClientSideSuspense } from "@liveblocks/react/suspense";
 import LoadingSpinner from "./LoadingSpinner";
+import CustomLiveCursorProvider from "./CustomLiveCursorProvider";
 const CustomRoomProvider = ({
   roomId,
   children,
@@ -15,7 +16,9 @@ const CustomRoomProvider = ({
         cursor: null,
       }}
     >
-      <ClientSideSuspense fallback={<LoadingSpinner/>}>{children}</ClientSideSuspense>
+      <ClientSideSuspense fallback={<LoadingSpinner />}>
+        <CustomLiveCursorProvider>{children}</CustomLiveCursorProvider>
+      </ClientSideSuspense>
     </RoomProvider>
   );
 };
